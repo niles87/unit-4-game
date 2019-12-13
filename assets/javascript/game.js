@@ -68,21 +68,20 @@ $(document).ready(function () {
     });
 
     var moveChar = function(elem) {
-        if ( $(elem).parent().attr("class") === "player"){
-            $(elem).detach().appendTo("#opponents")
-        }
-        else {
+        isPlayerChosen = true;
+        if (isPlayerChosen === false){
             $(elem).detach().appendTo("#char")
         }
     }
 
     var moveOppon = function(elem) {
-        if ( $(elem).parent().attr("class") === "player"){
-            $(elem).detach().appendTo("#player")
-        }
-        else {
+        if (isPlayerChosen === true){
             $(elem).detach().appendTo("#opponents")
         }
+    }
+
+    var selectEnemy = function() {
+        
     }
 
 });
