@@ -1,35 +1,35 @@
 $(document).ready(function () {
     var isPlayerChosen = false;
     var charChoices = {
-        "Boba Fett": {
-            "Health Points": 140,
-            "Attack Power": 10,
-            "Counter Attack Power": 18,
+        bobaFett: {
+            health: 140,
+            attack: 10,
+            counter: 18,
         },
-        "Darth Vader": {
-            "Health Points": 200,
-            "Attack Power": 11,
-            "Counter Attack Power": 20,
+        darthVader: {
+            health: 200,
+            attack: 11,
+            counter: 20,
         },
-        "Kylo Ren": {
-            "Health Points": 150,
-            "Attack Power": 6,
-            "Counter Attack Power": 25,
+        kyloRen: {
+            health: 150,
+            attack: 6,
+            counter: 25,
         },
-        "Luke Skywalker": {
-            "Health Points": 145,
-            "Attack Power": 8,
-            "Counter Attack Power": 17,
+        lukeSkywalker: {
+            health: 145,
+            attack: 8,
+            counter: 17,
         },
         Rey: {
-            "Health Points": 135,
-            "Attack Power": 7,
-            "Counter Attack Power": 15,
+            health: 135,
+            attack: 7,
+            counter: 15,
         },
         Yoda: {
-            "Health Points": 130,
-            "Attack Power": 12,
-            "Counter Attack Power": 16,
+            health: 130,
+            attack: 12,
+            counter: 16,
         }
     }
 
@@ -67,20 +67,20 @@ $(document).ready(function () {
         }
     });
 
-    var moveChar = function(elem) {
+    function moveChar(elem) {
         isPlayerChosen = true;
         if (isPlayerChosen === false){
             $(elem).detach().appendTo("#char")
         }
     }
 
-    var moveOppon = function(elem) {
+    function moveOppon(elem) {
         if (isPlayerChosen === true){
             $(elem).detach().appendTo("#opponents")
         }
     }
 
-    var selectEnemy = function() {
+    function selectEnemy() {
         
     }
 
