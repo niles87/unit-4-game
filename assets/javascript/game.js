@@ -1,37 +1,52 @@
-$(document).ready(function () {
-    var isPlayerChosen = false;
-    var charChoices = {
+var char
+var isPlayerChosen = false;
+var resetCharChoices = function () {
+    return {
         bobaFett: {
+            name: "Boba Fett",
             health: 140,
             attack: 10,
             counter: 18,
+            imgURL: "assets/images/boba_fett.jpeg"
         },
         darthVader: {
+            name: "Darth Vader",
             health: 200,
             attack: 11,
             counter: 20,
+            imgURL: "assets/images/Darth_vader.jpeg"
         },
         kyloRen: {
+            name: "Kylo Ren",
             health: 150,
             attack: 6,
             counter: 25,
+            imgURL: "assets/images/Kylo_ren.jpeg"
         },
         lukeSkywalker: {
+            name: " Luke Skywalker",
             health: 145,
             attack: 8,
             counter: 17,
+            imgURL: "assets/images/Luke.jpeg"
         },
         Rey: {
+            name: "Rey",
             health: 135,
             attack: 7,
             counter: 15,
+            imgURL: "assets/images/rey.jpeg"
         },
         Yoda: {
+            name: "Yoda",
             health: 130,
             attack: 12,
             counter: 16,
+            imgURL: "assets/images/yoda.jpeg"
         }
     }
+}
+$(document).ready(function () {
 
     $(".player").on("click", function () {
         console.log($(this).attr("id"))
@@ -66,22 +81,32 @@ $(document).ready(function () {
             moveOppon("#darthVader, #kyloRen, #luke, #rey, #bobaFett")
         }
     });
-
-    function moveChar(elem) {
-        isPlayerChosen = true;
-        if (isPlayerChosen === false){
-            $(elem).detach().appendTo("#char")
-        }
-    }
-
-    function moveOppon(elem) {
-        if (isPlayerChosen === true){
-            $(elem).detach().appendTo("#opponents")
-        }
-    }
-
-    function selectEnemy() {
-        
-    }
-
 });
+
+
+function createChar(char, key) {
+    var div = $("<div class='char' data-name='" + key + "'>")
+    var characterName = $("<div class='char-name'>").text(char.name)
+    var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL)
+    var hP = $("<div class'char-health'>").text(char.health)
+    div.append(characterName).append(image).append(hP)
+    return div
+}
+function moveChar(elem) {
+    isPlayerChosen = true;
+    if (isPlayerChosen === false) {
+        $(elem).detach().appendTo("#char")
+    }
+}
+
+function moveOppon(elem) {
+    if (isPlayerChosen === true) {
+        $(elem).detach().appendTo("#opponents")
+    }
+}
+
+function startGame() {
+    char = resetCharChoices();
+
+}
+
