@@ -1,5 +1,9 @@
 var char
 var isPlayerChosen = false;
+function startGame() {
+    char = resetCharChoices();
+    addChars();
+}
 var resetCharChoices = function () {
     return {
         bobaFett: {
@@ -46,6 +50,39 @@ var resetCharChoices = function () {
         }
     }
 }
+
+
+function createChar(char, key) {
+    var charContainer = $("<div class='char' data-name='" + key + "'>")
+    var characterName = $("<div class='char-name'>").text(char.name)
+    var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL)
+    var hP = $("<div class'char-health'>").text(char.health)
+    charContainer.append(characterName).append(image).append(hP)
+    return charContainer
+}
+function addChars() {
+    var keys = Object.keys(char)
+    for (var j = 0; j < keys.length; j++)
+    var charKey = keys[j];
+    var char = char[charKey];
+    var charContainer = createChar(char, charKey)
+    $(".characters").append(charContainer)
+}
+function moveChar(elem) {
+    isPlayerChosen = true;
+    if (isPlayerChosen === false) {
+        $(elem).detach().appendTo("#char")
+    }
+}
+
+function moveOppon(elem) {
+    if (isPlayerChosen === true) {
+        $(elem).detach().appendTo("#opponents")
+    }
+}
+
+
+
 $(document).ready(function () {
 
     $(".player").on("click", function () {
@@ -81,32 +118,5 @@ $(document).ready(function () {
             moveOppon("#darthVader, #kyloRen, #luke, #rey, #bobaFett")
         }
     });
+    startGame()
 });
-
-
-function createChar(char, key) {
-    var div = $("<div class='char' data-name='" + key + "'>")
-    var characterName = $("<div class='char-name'>").text(char.name)
-    var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL)
-    var hP = $("<div class'char-health'>").text(char.health)
-    div.append(characterName).append(image).append(hP)
-    return div
-}
-function moveChar(elem) {
-    isPlayerChosen = true;
-    if (isPlayerChosen === false) {
-        $(elem).detach().appendTo("#char")
-    }
-}
-
-function moveOppon(elem) {
-    if (isPlayerChosen === true) {
-        $(elem).detach().appendTo("#opponents")
-    }
-}
-
-function startGame() {
-    char = resetCharChoices();
-
-}
-
