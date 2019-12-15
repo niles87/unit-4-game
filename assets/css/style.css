@@ -9,11 +9,19 @@ img {
 button {
     text-align: center;
 }
-.player {
+.char {
     display: inline-block;
     height: 5%;
     width: 13%;
     text-align: center;
     background-color: #ffffff;
-    border: solid #0061d5 2px;
+    border: solid #0097ff 2px;
+}
+.opponent {
+    display: inline-block;
+    height: 5%;
+    width: 13%;
+    text-align: center;
+    background-color: #900000;
+    border: solid #000000 2px;
 }
