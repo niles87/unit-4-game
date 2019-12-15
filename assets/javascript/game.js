@@ -1,10 +1,18 @@
-var char
-var isPlayerChosen = false;
+var characters;
+var gameStats;
+
+// this starts the game
 function startGame() {
-    char = resetCharChoices();
+    console.log(resetCharChoices)
+    characters = resetCharChoices();
+    gameStats = gameStatsReset()
     addChars();
+    $("#attack").hide()
+    $("#reset").hide()
 }
-var resetCharChoices = function () {
+
+// this resets the characters key values
+function resetCharChoices() {
     return {
         bobaFett: {
             name: "Boba Fett",
@@ -23,8 +31,8 @@ var resetCharChoices = function () {
         kyloRen: {
             name: "Kylo Ren",
             health: 150,
-            attack: 6,
-            counter: 25,
+            attack: 13,
+            counter: 5,
             imgURL: "assets/images/Kylo_ren.jpeg"
         },
         lukeSkywalker: {
@@ -51,72 +59,125 @@ var resetCharChoices = function () {
     }
 }
 
-
+// creates the possible players 
 function createChar(char, key) {
     var charContainer = $("<div class='char' data-name='" + key + "'>")
     var characterName = $("<div class='char-name'>").text(char.name)
     var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL)
-    var hP = $("<div class'char-health'>").text(char.health)
+    var hP = $("<div class='char-health'>").text(char.health)
     charContainer.append(characterName).append(image).append(hP)
     return charContainer
 }
+
+// adds the players to html doc
 function addChars() {
-    var keys = Object.keys(char)
-    for (var j = 0; j < keys.length; j++)
-    var charKey = keys[j];
-    var char = char[charKey];
-    var charContainer = createChar(char, charKey)
-    $(".characters").append(charContainer)
-}
-function moveChar(elem) {
-    isPlayerChosen = true;
-    if (isPlayerChosen === false) {
-        $(elem).detach().appendTo("#char")
+    console.log(characters)
+    var keys = Object.keys(characters)
+    for (var i = 0; i < keys.length; i++) {
+        var charKey = keys[i];
+        var char = characters[charKey];
+        var charContainer = createChar(char, charKey)
+        $(".characters").append(charContainer)
     }
 }
 
-function moveOppon(elem) {
-    if (isPlayerChosen === true) {
-        $(elem).detach().appendTo("#opponents")
+// this is to move the possible opponents to opponents div
+function createOpponents(charPickedKey) {
+    var charKeys = Object.keys(characters)
+    for (var j = 0; j < charKeys.length; j++) {
+        if (charKeys[j] !== charPickedKey) {
+            var opponentKey = charKeys[j]
+            var opponent = characters[opponentKey]
+            var opponentContainer = createChar(opponent, opponentKey)
+            $(opponentContainer).addClass("opponent")
+            $("#opponents").append(opponentContainer);
+        }
     }
 }
 
+// this is to select an enemy to battle
+function moveOpponentToEnemy() {
+    $(".opponent").on("click.opponentSelect", function () {
+        var enemy = $(this).attr("data-name")
+        gameStats.enemyPicked = characters[enemy]
+        $("#enemy").append(this)
+        $("#attack").show()
+        $("#opponents").hide()
+        $(".opponent").off()
+    })
+}
 
+// this is to check a selected players health after attack button is clicked
+function playerHealth(characters) {
+    console.log("checking health")
+    return characters.health <= 0;
+}
 
+// this is to check if theres any possible opponents left
+function matchesFinished() {
+    console.log("looking for enemies remaining")
+    return gameStats.enemiesRemaining === 0;
+}
+
+// this is to check if the current battle is over
+function isBattleComplete() {
+    if (playerHealth(gameStats.selecedCharacter)) {
+        console.log("you lost");
+        $("#charSelected").empty();
+        $("#reset").show();
+    } else if (playerHealth(gameStats.enemyPicked)) {
+        console.log("you defeated " + gameStats.enemyPicked);
+        gameStats.enemiesRemaining--;
+        console.log(gameStats.enemiesRemaining)
+        $("#enemy").empty()
+        if (matchesFinished()) {
+            console.log("you win")
+            $("#reset").show();
+        } else {
+            moveOpponentToEnemy();
+        }
+        return true
+    }
+    return false
+}
+
+// used to reset stats of the game needed for tracking
+function gameStatsReset() {
+    return {
+        charPicked: null,
+        enemyPicked: null,
+        enemiesRemaining: 0,
+        numberOfAttacks: 0
+    };
+}
+
+// 
 $(document).ready(function () {
+    
+    $(".characters").on("click", ".char", function() {
+        var charPickedKey = $(this).attr("data-name");
+        gameStats.charPicked = characters[charPickedKey];
+        $("#charSelected").append(this);
+        createOpponents(charPickedKey);
+        $(".characters").hide();
+        gameStats.enemiesRemaining = Object.keys(characters).length - 1;
+        moveOpponentToEnemy();
+    })
+    
+    $("#attack").on("click", function () {
+        gameStats.numberOfAttacks++
+        console.log(gameStats.numberOfAttacks)
+        gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
+        $("#enemy .char-health").text(gameStats.enemyPicked.health)
+        console.log(gameStats.enemyPicked.health)
+        // if (isBattleComplete()){
+        //     $("#attack").hide()
+        // } else {
+            gameStats.charPicked.health -= gameStats.enemyPicked.counter;
+        $("#charSelected .char-health").text(gameStats.charPicked.health)
+        console.log(gameStats.charPicked.health)
+        // }
+    })
 
-    $(".player").on("click", function () {
-        console.log($(this).attr("id"))
-        if ($(this).attr("id") === "bobaFett") {
-            console.log("char moved")
-            moveChar("#bobaFett");
-            moveOppon("#darthVader, #kyloRen, #luke, #rey, #yoda")
-        }
-        else if ($(this).attr("id") === "darthVader") {
-            console.log("vader selected")
-            moveChar("#darthVader")
-            moveOppon("#bobaFett, #kyloRen, #luke, #rey, #yoda")
-        }
-        else if ($(this).attr("id") === "kyloRen") {
-            console.log("kylo selected")
-            moveChar("#kyloRen")
-            moveOppon("#darthVader, #bobaFett, #luke, #rey, #yoda")
-        }
-        else if ($(this).attr("id") === "luke") {
-            console.log("luke selected")
-            moveChar("#luke")
-            moveOppon("#darthVader, #kyloRen, #bobaFett, #rey, #yoda")
-        }
-        else if ($(this).attr("id") === "rey") {
-            console.log("rey selected")
-            moveChar("#rey")
-            moveOppon("#darthVader, #kyloRen, #luke, #bobaFett, #yoda")
-        }
-        else if ($(this).attr("id") === "yoda") {
-            console.log("yoda selected")
-            moveChar("#yoda")
-            moveOppon("#darthVader, #kyloRen, #luke, #rey, #bobaFett")
-        }
-    });
-    startGame()
+    startGame();
 });
