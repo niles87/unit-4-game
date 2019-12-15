@@ -97,20 +97,20 @@ function createOpponents(charPickedKey) {
 
 // this is to select an enemy to battle
 function moveOpponentToEnemy() {
-    $(".opponent").on("click.opponentSelect", function () {
+    $(".opponent").on("click", function () {
         var enemy = $(this).attr("data-name")
         gameStats.enemyPicked = characters[enemy]
         $("#enemy").append(this)
         $("#attack").show()
         $("#opponents").hide()
-        $(".opponent").off()
+        $(".opponent").off("click")
     })
 }
 
 // this is to check a selected players health after attack button is clicked
-function playerHealth(characters) {
-    console.log("checking health")
-    return characters.health <= 0;
+function playerHealth(character) {
+    console.log("checking" + character + "health")
+    return character.health <= 0;
 }
 
 // this is to check if theres any possible opponents left
@@ -121,19 +121,25 @@ function matchesFinished() {
 
 // this is to check if the current battle is over
 function isBattleComplete() {
-    if (playerHealth(gameStats.selecedCharacter)) {
-        console.log("you lost");
+    if (playerHealth(gameStats.charPicked)) {
+        $("#winOrLose").text(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
         $("#charSelected").empty();
         $("#reset").show();
+        $("#characterAttack").empty()
+        $("#opponentCounter").empty()
+        return true;
     } else if (playerHealth(gameStats.enemyPicked)) {
-        console.log("you defeated " + gameStats.enemyPicked);
         gameStats.enemiesRemaining--;
         console.log(gameStats.enemiesRemaining)
+        $("#characterAttack").empty()
+        $("#opponentCounter").empty()
         $("#enemy").empty()
+        $("#opponents").show();
         if (matchesFinished()) {
             console.log("you win")
             $("#reset").show();
         } else {
+            $("#winOrLose").text(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to play again.");
             moveOpponentToEnemy();
         }
         return true
@@ -153,30 +159,48 @@ function gameStatsReset() {
 
 // 
 $(document).ready(function () {
-    
-    $(".characters").on("click", ".char", function() {
+
+    $(".characters").on("click", ".char", function () {
         var charPickedKey = $(this).attr("data-name");
         gameStats.charPicked = characters[charPickedKey];
         $("#charSelected").append(this);
         createOpponents(charPickedKey);
         $(".characters").hide();
         gameStats.enemiesRemaining = Object.keys(characters).length - 1;
+        console.log("this is the opponents remaining " + gameStats.enemiesRemaining)
         moveOpponentToEnemy();
     })
-    
+
     $("#attack").on("click", function () {
+        // adds one to number of attacks
         gameStats.numberOfAttacks++
         console.log(gameStats.numberOfAttacks)
+        // decreases health of opponent
         gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
         $("#enemy .char-health").text(gameStats.enemyPicked.health)
-        console.log(gameStats.enemyPicked.health)
-        // if (isBattleComplete()){
-        //     $("#attack").hide()
-        // } else {
-            gameStats.charPicked.health -= gameStats.enemyPicked.counter;
+        $("#characterAttack").text("You attacked " + gameStats.enemyPicked.name + " for " + (gameStats.charPicked.attack * gameStats.numberOfAttacks) + " damage!")
+        // decreases health of users player
+        gameStats.charPicked.health -= gameStats.enemyPicked.counter;
         $("#charSelected .char-health").text(gameStats.charPicked.health)
-        console.log(gameStats.charPicked.health)
-        // }
+        $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!")
+        if (isBattleComplete()) {
+            $("#attack").hide()
+        }
+        $("#winOrLose").empty()
+    })
+
+    $("#reset").on("click", function () {
+        console.log("reset game window")
+        $("#characterAttack").empty()
+        $("#opponentCounter").empty()
+        $("#winOrLose").empty()
+        $(".characters").empty()
+        $("#opponents").empty()
+        $("#enemy").empty()
+        $("#charSelected").empty()
+        $(".characters").show()
+        $("#opponents").show()
+        startGame();
     })
 
     startGame();
