@@ -3,7 +3,6 @@ var gameStats;
 
 // this starts the game
 function startGame() {
-    console.log(resetCharChoices)
     characters = resetCharChoices();
     gameStats = gameStatsReset()
     addChars();
@@ -39,7 +38,7 @@ function resetCharChoices() {
             name: " Luke Skywalker",
             health: 145,
             attack: 8,
-            counter: 17,
+            counter: 13,
             imgURL: "assets/images/Luke.jpeg"
         },
         Rey: {
@@ -71,7 +70,6 @@ function createChar(char, key) {
 
 // adds the players to html doc
 function addChars() {
-    console.log(characters)
     var keys = Object.keys(characters)
     for (var i = 0; i < keys.length; i++) {
         var charKey = keys[i];
@@ -109,38 +107,47 @@ function moveOpponentToEnemy() {
 
 // this is to check a selected players health after attack button is clicked
 function playerHealth(character) {
-    console.log("checking" + character + "health")
     return character.health <= 0;
 }
 
 // this is to check if theres any possible opponents left
 function matchesFinished() {
-    console.log("looking for enemies remaining")
     return gameStats.enemiesRemaining === 0;
 }
 
 // this is to check if the current battle is over
 function isBattleComplete() {
     if (playerHealth(gameStats.charPicked)) {
-        $("#winOrLose").text(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
+        // checks players health
         $("#charSelected").empty();
         $("#reset").show();
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
+        setTimeout(function() {
+            alert(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
+        }, 10)
         return true;
     } else if (playerHealth(gameStats.enemyPicked)) {
+        // removes current enemy if defeated
         gameStats.enemiesRemaining--;
-        console.log(gameStats.enemiesRemaining)
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
         $("#enemy").empty()
         $("#opponents").show();
         if (matchesFinished()) {
-            console.log("you win")
+            // checks to see if match is won
+            setTimeout(function() {
+                alert("You Defeated All Enemies! Click Play Again.")
+            }, 10)
             $("#reset").show();
         } else {
-            $("#winOrLose").text(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to play again.");
+            // allows new enemy selection
+            $("#characterAttack").empty()
+            $("#opponentCounter").empty()
             moveOpponentToEnemy();
+            setTimeout(function() {
+                alert(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to continue the battles.");
+            }, 10)
         }
         return true
     }
@@ -164,42 +171,41 @@ $(document).ready(function () {
         var charPickedKey = $(this).attr("data-name");
         gameStats.charPicked = characters[charPickedKey];
         $("#charSelected").append(this);
+        $("#pick").hide()
         createOpponents(charPickedKey);
         $(".characters").hide();
         gameStats.enemiesRemaining = Object.keys(characters).length - 1;
-        console.log("this is the opponents remaining " + gameStats.enemiesRemaining)
         moveOpponentToEnemy();
     })
 
     $("#attack").on("click", function () {
         // adds one to number of attacks
         gameStats.numberOfAttacks++
-        console.log(gameStats.numberOfAttacks)
         // decreases health of opponent
         gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
         $("#enemy .char-health").text(gameStats.enemyPicked.health)
         $("#characterAttack").text("You attacked " + gameStats.enemyPicked.name + " for " + (gameStats.charPicked.attack * gameStats.numberOfAttacks) + " damage!")
-        // decreases health of users player
-        gameStats.charPicked.health -= gameStats.enemyPicked.counter;
-        $("#charSelected .char-health").text(gameStats.charPicked.health)
-        $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!")
         if (isBattleComplete()) {
             $("#attack").hide()
+        } else {
+            // decreases health of users player
+            gameStats.charPicked.health -= gameStats.enemyPicked.counter;
+            $("#charSelected .char-health").text(gameStats.charPicked.health)
+            $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!")
         }
-        $("#winOrLose").empty()
+        $("#opponentCounter").show()
     })
-
+        // resets game board
     $("#reset").on("click", function () {
-        console.log("reset game window")
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
-        $("#winOrLose").empty()
         $(".characters").empty()
         $("#opponents").empty()
         $("#enemy").empty()
         $("#charSelected").empty()
         $(".characters").show()
         $("#opponents").show()
+        $("#pick").show()
         startGame();
     })
 
