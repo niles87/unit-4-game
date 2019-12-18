@@ -2,11 +2,13 @@ body {
     background: url(../images/background.jpeg) no-repeat center fixed;
     background-size: cover;
 }
+
 .container {
     height: 50px;
     width: 100%;
     padding: 10px;
 }
+
 .title {
     position: absolute;
     top: 4%;
@@ -56,4 +58,26 @@ img {
 #reset {
     margin: 10px 10px;
     text-align: center;
+}
+
+#characterAttack {
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    margin: 0 10px;
+}
+
+#opponentCounter{
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    margin: 0 10px;
+}
+
+#win-or-lose{
+    font-family: 'Roboto', sans-serif;
+    font-size: x-large;
+    margin: 0 10px;
+}
+
+.char:hover {
+    opacity: .75;
 }
