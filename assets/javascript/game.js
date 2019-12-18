@@ -170,10 +170,19 @@ function gameStatsReset() {
 function slideTitle() {
     $(".title").animate({ right: "1%" }, "fast")
 }
-
+// plays sounds effects 
 function playSounds() {
     var randomEffects = effects[Math.floor(Math.random() * effects.length)]
     randomEffects.play()
+}
+// empties game board
+function emptyGameBoard() {
+    $("#characterAttack").empty()
+    $("#opponentCounter").empty()
+    $(".characters").empty()
+    $("#opponents").empty()
+    $("#enemy").empty()
+    $("#charSelected").empty()
 }
 
 
@@ -216,12 +225,7 @@ $(document).ready(function () {
     })
     // resets game board
     $("#reset").on("click", function () {
-        $("#characterAttack").empty()
-        $("#opponentCounter").empty()
-        $(".characters").empty()
-        $("#opponents").empty()
-        $("#enemy").empty()
-        $("#charSelected").empty()
+        emptyGameBoard()
         $(".characters").show()
         $("#opponents").show()
         $("#pick").show()
