@@ -1,6 +1,7 @@
 var characters;
 var gameStats;
 var audio = new Audio("assets/sounds/battleground_music.mp3")
+var effects = [new Audio("assets/sounds/saberclash1.mp3"), new Audio("assets/sounds/saberclash2.mp3"), new Audio("assets/sounds/saberclash3.mp3")];
 
 // this starts the game
 function startGame() {
@@ -126,7 +127,7 @@ function isBattleComplete() {
         $("#opponentCounter").empty()
         setTimeout(function () {
             alert(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
-        }, 10)
+        }, 150)
         return true;
     } else if (playerHealth(gameStats.enemyPicked)) {
         // removes current enemy if defeated
@@ -139,7 +140,7 @@ function isBattleComplete() {
             // checks to see if match is won
             setTimeout(function () {
                 alert("You Defeated All Enemies! Click Play Again.")
-            }, 10)
+            }, 150)
             $("#reset").show();
         } else {
             // allows new enemy selection
@@ -148,7 +149,7 @@ function isBattleComplete() {
             moveOpponentToEnemy();
             setTimeout(function () {
                 alert(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to continue the battles.");
-            }, 10)
+            }, 150)
         }
         return true
     }
@@ -171,11 +172,7 @@ function slideTitle() {
 }
 
 function playSounds() {
-    var effects = [new Audio("assets/sounds/saberclash1.mp3"), new Audio("assets/sounds/saberclash2.mp3"), new Audio("assets/sounds/saberclash3.mp3")];
     var randomEffects = effects[Math.floor(Math.random() * effects.length)]
-    setTimeout(function () {
-        randomEffects.play;
-    }, 2000)
     randomEffects.play()
 }
 
