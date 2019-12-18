@@ -10,6 +10,7 @@ function startGame() {
     addChars();
     $("#attack").hide()
     $("#reset").hide()
+    $("#win-or-lose").empty();
 }
 
 // this resets the characters key values
@@ -103,6 +104,7 @@ function moveOpponentToEnemy() {
         $("#enemy").append(this)
         $("#attack").show()
         $("#opponents").hide()
+        $("#win-or-lose").empty();
         $(".opponent").off("click")
     })
 }
@@ -125,9 +127,7 @@ function isBattleComplete() {
         $("#reset").show();
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
-        setTimeout(function () {
-            alert(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
-        }, 150)
+        $("#win-or-lose").text(gameStats.enemyPicked.name + " defeated you! Click Play Again.");
         return true;
     } else if (playerHealth(gameStats.enemyPicked)) {
         // removes current enemy if defeated
@@ -136,20 +136,16 @@ function isBattleComplete() {
         $("#opponentCounter").empty()
         $("#enemy").empty()
         $("#opponents").show();
+        // checks to see if match is won
         if (matchesFinished()) {
-            // checks to see if match is won
-            setTimeout(function () {
-                alert("You Defeated All Enemies! Click Play Again.")
-            }, 150)
+            $("#win-or-lose").text(gameStats.charPicked.name + " Defeated All Enemies! Click Play Again.")
             $("#reset").show();
         } else {
             // allows new enemy selection
             $("#characterAttack").empty()
             $("#opponentCounter").empty()
             moveOpponentToEnemy();
-            setTimeout(function () {
-                alert(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to continue the battles.");
-            }, 150)
+            $("#win-or-lose").text(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Select another opponent.");
         }
         return true
     }
