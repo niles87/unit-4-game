@@ -1,5 +1,6 @@
 var characters;
 var gameStats;
+var audio = new Audio("assets/sounds/battleground_music.mp3")
 
 // this starts the game
 function startGame() {
@@ -16,14 +17,14 @@ function resetCharChoices() {
         bobaFett: {
             name: "Boba Fett",
             health: 140,
-            attack: 10,
+            attack: 9,
             counter: 18,
             imgURL: "assets/images/boba_fett.jpeg"
         },
         darthVader: {
             name: "Darth Vader",
-            health: 200,
-            attack: 11,
+            health: 155,
+            attack: 10,
             counter: 20,
             imgURL: "assets/images/Darth_vader.jpeg"
         },
@@ -31,28 +32,28 @@ function resetCharChoices() {
             name: "Kylo Ren",
             health: 150,
             attack: 13,
-            counter: 5,
+            counter: 6,
             imgURL: "assets/images/Kylo_ren.jpeg"
         },
         lukeSkywalker: {
             name: " Luke Skywalker",
             health: 145,
             attack: 8,
-            counter: 13,
+            counter: 14,
             imgURL: "assets/images/Luke.jpeg"
         },
         Rey: {
             name: "Rey",
             health: 135,
             attack: 7,
-            counter: 15,
+            counter: 16,
             imgURL: "assets/images/rey.jpeg"
         },
         Yoda: {
             name: "Yoda",
             health: 130,
             attack: 12,
-            counter: 16,
+            counter: 17,
             imgURL: "assets/images/yoda.jpeg"
         }
     }
@@ -123,7 +124,7 @@ function isBattleComplete() {
         $("#reset").show();
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
-        setTimeout(function() {
+        setTimeout(function () {
             alert(gameStats.enemyPicked.name + " defeated you! Click the button to play again.");
         }, 10)
         return true;
@@ -136,7 +137,7 @@ function isBattleComplete() {
         $("#opponents").show();
         if (matchesFinished()) {
             // checks to see if match is won
-            setTimeout(function() {
+            setTimeout(function () {
                 alert("You Defeated All Enemies! Click Play Again.")
             }, 10)
             $("#reset").show();
@@ -145,7 +146,7 @@ function isBattleComplete() {
             $("#characterAttack").empty()
             $("#opponentCounter").empty()
             moveOpponentToEnemy();
-            setTimeout(function() {
+            setTimeout(function () {
                 alert(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Click the button to continue the battles.");
             }, 10)
         }
@@ -164,8 +165,23 @@ function gameStatsReset() {
     };
 }
 
-// 
+// slides the title div to the right
+function slideTitle() {
+    $(".title").animate({ right: "1%" }, "fast")
+}
+
+function playSounds() {
+    var effects = [new Audio("assets/sounds/saberclash1.mp3"), new Audio("assets/sounds/saberclash2.mp3"), new Audio("assets/sounds/saberclash3.mp3")];
+    var randomEffects = effects[Math.floor(Math.random() * effects.length)]
+    setTimeout(function () {
+        randomEffects.play;
+    }, 2000)
+    randomEffects.play()
+}
+
+
 $(document).ready(function () {
+
 
     $(".characters").on("click", ".char", function () {
         var charPickedKey = $(this).attr("data-name");
@@ -176,11 +192,14 @@ $(document).ready(function () {
         $(".characters").hide();
         gameStats.enemiesRemaining = Object.keys(characters).length - 1;
         moveOpponentToEnemy();
+        slideTitle()
+        audio.play()
     })
 
     $("#attack").on("click", function () {
         // adds one to number of attacks
         gameStats.numberOfAttacks++
+        playSounds()
         // decreases health of opponent
         gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
         $("#enemy .char-health").text(gameStats.enemyPicked.health)
@@ -192,10 +211,13 @@ $(document).ready(function () {
             gameStats.charPicked.health -= gameStats.enemyPicked.counter;
             $("#charSelected .char-health").text(gameStats.charPicked.health)
             $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!")
+            if (isBattleComplete()) {
+                $("#attack").hide()
+            }
         }
         $("#opponentCounter").show()
     })
-        // resets game board
+    // resets game board
     $("#reset").on("click", function () {
         $("#characterAttack").empty()
         $("#opponentCounter").empty()
