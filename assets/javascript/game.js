@@ -1,15 +1,15 @@
 var characters;
 var gameStats;
-var audio = new Audio("assets/sounds/battleground_music.mp3")
+var audio = new Audio("assets/sounds/battleground_music.mp3");
 var effects = [new Audio("assets/sounds/saberclash1.mp3"), new Audio("assets/sounds/saberclash2.mp3"), new Audio("assets/sounds/saberclash3.mp3")];
 
 // this starts the game
 function startGame() {
     characters = resetCharChoices();
-    gameStats = gameStatsReset()
+    gameStats = gameStatsReset();
     addChars();
-    $("#attack").hide()
-    $("#reset").hide()
+    $("#attack").hide();
+    $("#reset").hide();
     $("#win-or-lose").empty();
 }
 
@@ -63,12 +63,12 @@ function resetCharChoices() {
 
 // creates the possible players 
 function createChar(char, key) {
-    var charContainer = $("<div class='char' data-name='" + key + "'>")
-    var characterName = $("<div class='char-name'>").text(char.name)
-    var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL)
-    var hP = $("<div class='char-health'>").text(char.health)
-    charContainer.append(characterName).append(image).append(hP)
-    return charContainer
+    var charContainer = $("<div class='char' data-name='" + key + "'>");
+    var characterName = $("<div class='char-name'>").text(char.name);
+    var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL);
+    var hP = $("<div class='char-health'>").text(char.health);
+    charContainer.append(characterName).append(image).append(hP);
+    return charContainer;
 }
 
 // adds the players to html doc
@@ -77,20 +77,20 @@ function addChars() {
     for (var i = 0; i < keys.length; i++) {
         var charKey = keys[i];
         var char = characters[charKey];
-        var charContainer = createChar(char, charKey)
-        $(".characters").append(charContainer)
+        var charContainer = createChar(char, charKey);
+        $(".characters").append(charContainer);
     }
 }
 
 // this is to move the possible opponents to opponents div
 function createOpponents(charPickedKey) {
-    var charKeys = Object.keys(characters)
+    var charKeys = Object.keys(characters);
     for (var j = 0; j < charKeys.length; j++) {
         if (charKeys[j] !== charPickedKey) {
-            var opponentKey = charKeys[j]
-            var opponent = characters[opponentKey]
-            var opponentContainer = createChar(opponent, opponentKey)
-            $(opponentContainer).addClass("opponent")
+            var opponentKey = charKeys[j];
+            var opponent = characters[opponentKey];
+            var opponentContainer = createChar(opponent, opponentKey);
+            $(opponentContainer).addClass("opponent");
             $("#opponents").append(opponentContainer);
         }
     }
@@ -99,13 +99,13 @@ function createOpponents(charPickedKey) {
 // this is to select an enemy to battle
 function moveOpponentToEnemy() {
     $(".opponent").on("click", function () {
-        var enemy = $(this).attr("data-name")
-        gameStats.enemyPicked = characters[enemy]
-        $("#enemy").append(this)
-        $("#attack").show()
-        $("#opponents").hide()
+        var enemy = $(this).attr("data-name");
+        gameStats.enemyPicked = characters[enemy];
+        $("#enemy").append(this);
+        $("#attack").show();
+        $("#opponents").hide();
         $("#win-or-lose").empty();
-        $(".opponent").off("click")
+        $(".opponent").off("click");
     })
 }
 
@@ -125,31 +125,31 @@ function isBattleComplete() {
         // checks players health
         $("#charSelected").empty();
         $("#reset").show();
-        $("#characterAttack").empty()
-        $("#opponentCounter").empty()
+        $("#characterAttack").empty();
+        $("#opponentCounter").empty();
         $("#win-or-lose").text(gameStats.enemyPicked.name + " defeated you! Click Play Again.");
         return true;
     } else if (playerHealth(gameStats.enemyPicked)) {
         // removes current enemy if defeated
         gameStats.enemiesRemaining--;
-        $("#characterAttack").empty()
-        $("#opponentCounter").empty()
-        $("#enemy").empty()
+        $("#characterAttack").empty();
+        $("#opponentCounter").empty();
+        $("#enemy").empty();
         $("#opponents").show();
         // checks to see if match is won
         if (matchesFinished()) {
-            $("#win-or-lose").text(gameStats.charPicked.name + " Defeated All Enemies! Click Play Again.")
+            $("#win-or-lose").text(gameStats.charPicked.name + " Defeated All Enemies! Click Play Again.");
             $("#reset").show();
         } else {
             // allows new enemy selection
-            $("#characterAttack").empty()
-            $("#opponentCounter").empty()
+            $("#characterAttack").empty();
+            $("#opponentCounter").empty();
             moveOpponentToEnemy();
             $("#win-or-lose").text(gameStats.charPicked.name + " defeated " + gameStats.enemyPicked.name + "! Select another opponent.");
         }
-        return true
+        return true;
     }
-    return false
+    return false;
 }
 
 // used to reset stats of the game needed for tracking
@@ -164,67 +164,68 @@ function gameStatsReset() {
 
 // slides the title div to the right
 function slideTitle() {
-    $(".title").animate({ right: "1%" }, "fast")
+    $(".title").animate({ right: "1%" }, "fast");
 }
+
 // plays sounds effects 
 function playSounds() {
-    var randomEffects = effects[Math.floor(Math.random() * effects.length)]
-    randomEffects.play()
+    var randomEffects = effects[Math.floor(Math.random() * effects.length)];
+    randomEffects.play();
 }
 // empties game board
 function emptyGameBoard() {
-    $("#characterAttack").empty()
-    $("#opponentCounter").empty()
-    $(".characters").empty()
-    $("#opponents").empty()
-    $("#enemy").empty()
-    $("#charSelected").empty()
+    $("#characterAttack").empty();
+    $("#opponentCounter").empty();
+    $(".characters").empty();
+    $("#opponents").empty();
+    $("#enemy").empty();
+    $("#charSelected").empty();
 }
 
 
 $(document).ready(function () {
 
-
+    // for character selection and moving opponents
     $(".characters").on("click", ".char", function () {
         var charPickedKey = $(this).attr("data-name");
         gameStats.charPicked = characters[charPickedKey];
         $("#charSelected").append(this);
-        $("#pick").hide()
+        $("#pick").hide();
         createOpponents(charPickedKey);
         $(".characters").hide();
         gameStats.enemiesRemaining = Object.keys(characters).length - 1;
         moveOpponentToEnemy();
-        slideTitle()
-        audio.play()
+        slideTitle();
+        audio.play();
     })
 
     $("#attack").on("click", function () {
         // adds one to number of attacks
-        gameStats.numberOfAttacks++
-        playSounds()
+        gameStats.numberOfAttacks++;
+        playSounds();
         // decreases health of opponent
         gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
-        $("#enemy .char-health").text(gameStats.enemyPicked.health)
-        $("#characterAttack").text("You attacked " + gameStats.enemyPicked.name + " for " + (gameStats.charPicked.attack * gameStats.numberOfAttacks) + " damage!")
+        $("#enemy .char-health").text(gameStats.enemyPicked.health);
+        $("#characterAttack").text("You attacked " + gameStats.enemyPicked.name + " for " + (gameStats.charPicked.attack * gameStats.numberOfAttacks) + " damage!");
         if (isBattleComplete()) {
-            $("#attack").hide()
+            $("#attack").hide();
         } else {
             // decreases health of users player
             gameStats.charPicked.health -= gameStats.enemyPicked.counter;
-            $("#charSelected .char-health").text(gameStats.charPicked.health)
-            $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!")
+            $("#charSelected .char-health").text(gameStats.charPicked.health);
+            $("#opponentCounter").text(gameStats.enemyPicked.name + " countered " + gameStats.charPicked.name + " for " + gameStats.enemyPicked.counter + " damage!");
             if (isBattleComplete()) {
-                $("#attack").hide()
+                $("#attack").hide();
             }
         }
-        $("#opponentCounter").show()
+        $("#opponentCounter").show();
     })
     // resets game board
     $("#reset").on("click", function () {
-        emptyGameBoard()
-        $(".characters").show()
-        $("#opponents").show()
-        $("#pick").show()
+        emptyGameBoard();
+        $(".characters").show();
+        $("#opponents").show();
+        $("#pick").show();
         startGame();
     })
 
