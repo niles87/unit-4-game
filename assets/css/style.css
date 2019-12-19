@@ -76,6 +76,7 @@ img {
     font-family: 'Roboto', sans-serif;
     font-size: x-large;
     margin: 0 10px;
+    text-align: center;
 }
 
 .char:hover {
