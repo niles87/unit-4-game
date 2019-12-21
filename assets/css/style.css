@@ -5,15 +5,17 @@ body {
 
 .container {
     height: 50px;
-    width: 100%;
+    width: 95%;
     padding: 10px;
 }
 
-.title {
+#title {
     position: absolute;
-    top: 4%;
+    top: 3%;
     font-family: 'Michroma', sans-serif;
     font-size: xx-large;
+    margin: 0;
+    padding: 0;
 }
 
 
