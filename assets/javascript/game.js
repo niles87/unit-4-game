@@ -164,7 +164,7 @@ function gameStatsReset() {
 
 // slides the title div to the right
 function slideTitle() {
-    $(".title").animate({ right: "1%" }, "fast");
+    $("#title").animate({ right: "5%" }, "fast");
 }
 
 // plays sounds effects 
