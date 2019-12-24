@@ -38,7 +38,7 @@ function resetCharChoices() {
             imgURL: "assets/images/Kylo_ren.jpeg"
         },
         lukeSkywalker: {
-            name: " Luke Skywalker",
+            name: "Luke Skywalker",
             health: 145,
             attack: 8,
             counter: 14,
