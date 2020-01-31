@@ -1,86 +1,102 @@
 body {
-    background: url(../images/background.jpeg) no-repeat center fixed;
-    background-size: cover;
+  background: url(../images/background.jpeg) no-repeat center fixed;
+  background-size: cover;
 }
 
 .container {
-    height: 50px;
-    width: 95%;
-    padding: 10px;
+  height: 50px;
+  width: 95%;
+  padding: 10px;
 }
 
 #title {
-    position: absolute;
-    top: 3%;
-    font-family: 'Michroma', sans-serif;
-    font-size: xx-large;
-    margin: 0;
-    padding: 0;
+  position: absolute;
+  top: 3%;
+  font-family: "Michroma", sans-serif;
+  font-size: xx-large;
+  margin: 0;
+  padding: 0;
 }
 
-
 h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: larger;
-    margin: 10px 10px;
-    text-decoration: underline;
+  font-family: "Orbitron", sans-serif;
+  font-size: larger;
+  margin: 10px 10px;
+  text-decoration: underline;
 }
 
 img {
-    width: 80%;
+  width: 80%;
 }
 
-#charSelected, #opponents, #enemy, .characters{
-    margin: 5px 10px;
+#charSelected,
+#opponents,
+#enemy,
+.characters {
+  margin: 5px 10px;
 }
 
 .char {
-    display: inline-block;
-    height: 5%;
-    width: 13%;
-    text-align: center;
-    background-color: #ffffff;
-    border: solid #0097ff 2px;
+  display: inline-block;
+  height: 5%;
+  width: 14%;
+  text-align: center;
+  background-color: #ffffff;
+  border: solid #0097ff 2px;
 }
 
 .opponent {
-    display: inline-block;
-    height: 5%;
-    width: 13%;
-    text-align: center;
-    background-color: #900000;
-    border: solid #000000 2px;
+  display: inline-block;
+  height: 5%;
+  width: 13%;
+  text-align: center;
+  background-color: #900000;
+  border: solid #000000 2px;
 }
 
 #attack {
-    margin: 10px 10px;
-    text-align: center;
+  margin: 10px 10px;
+  text-align: center;
 }
 
 #reset {
-    margin: 10px 10px;
-    text-align: center;
+  margin: 10px 10px;
+  text-align: center;
 }
 
 #characterAttack {
-    font-family: 'Roboto', sans-serif;
-    font-size: medium;
-    margin: 0 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: medium;
+  margin: 0 10px;
 }
 
-#opponentCounter{
-    font-family: 'Roboto', sans-serif;
-    font-size: medium;
-    margin: 0 10px;
+#opponentCounter {
+  font-family: "Roboto", sans-serif;
+  font-size: medium;
+  margin: 0 10px;
 }
 
-#win-or-lose{
-    font-family: 'Roboto', sans-serif;
-    font-size: x-large;
-    margin: 0 10px;
-    text-align: center;
+#win-or-lose {
+  font-family: "Roboto", sans-serif;
+  font-size: x-large;
+  margin: 0 10px;
+  text-align: center;
 }
 
 .char:hover {
-    opacity: .75;
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 620px) {
+  .char-name,
+  .char-health {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .char-name,
+  .char-health {
+    font-size: 10px;
+  }
 }
