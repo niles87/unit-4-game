@@ -4,6 +4,8 @@
 
 <img src="assets/images/rpg.gif">
 
+<img src="assets/images/remaining-players.gif">
+
 ## Overview
 
 This role playing game was created using jquery to dynamically update the HTML. The game is based on Star Wars using a selected player to defeat the rest of the characters. The key to winning the game is to select each opponent in the correct order. Audio was used from https://www.soundboard.com/sb/starwarsfx.
