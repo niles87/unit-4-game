@@ -1,4 +1,4 @@
-# **<p align="center">unit-4-game</p>**
+# **<p align="center" style='font-size:4em; color:blue;'>unit-4-game</p>**
 
 #### <p align='center'>Game Play</p>
 
