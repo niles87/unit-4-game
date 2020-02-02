@@ -2,7 +2,7 @@
 
 #### Game Play
 
-<p align="center><img src="assets/images/rpg.gif"></p>
+<p align="center"><img src="assets/images/rpg.gif"></p>
 
 <p align="center"><img src="assets/images/remaining-players.gif"></p>
 
