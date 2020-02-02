@@ -1,6 +1,6 @@
-**<p align="center" font-size="100px">unit-4-game</p>**
+# **<p align="center">unit-4-game</p>**
 
-#### Game Play
+#### <p align='center'>Game Play</p>
 
 <p align="center"><img src="assets/images/rpg.gif"></p>
 
