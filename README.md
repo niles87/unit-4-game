@@ -1,16 +1,16 @@
-# <p align="center"> unit-4-game</p>
+# **<p align="center" font-size="50px">unit-4-game</p>**
 
 #### Game Play
 
-<img src="assets/images/rpg.gif">
+<p align="center><img src="assets/images/rpg.gif"></p>
 
-<img src="assets/images/remaining-players.gif">
+<p align="center"><img src="assets/images/remaining-players.gif"></p>
 
-## Overview
+## <p align="center">Overview</p>
 
-This role playing game was created using jquery to dynamically update the HTML. The game is based on Star Wars using a selected player to defeat the rest of the characters. The key to winning the game is to select each opponent in the correct order. Audio was used from [soundboard]https://www.soundboard.com/sb/starwarsfx.
+This role playing game was created using jquery to dynamically update the HTML. The game is based on Star Wars using a selected player to defeat the rest of the characters. The key to winning the game is to select each opponent in the correct order. Audio was used from [soundboard](https://www.soundboard.com/sb/starwarsfx).
 
-## How to Play
+## <p align="center">How to Play</p>
 
 1. To start the game select the desired character by clicking on the image. The selected character will populate the selected character area and the others will poplulate the opponents area.
 2. Select an opponent.
