@@ -1,10 +1,10 @@
 var characters;
 var gameStats;
-var audio = new Audio("assets/sounds/battleground_music.mp3");
+var audio = new Audio('assets/sounds/battleground_music.mp3');
 var effects = [
-  new Audio("assets/sounds/saberclash1.mp3"),
-  new Audio("assets/sounds/saberclash2.mp3"),
-  new Audio("assets/sounds/saberclash3.mp3"),
+  new Audio('assets/sounds/saberclash1.mp3'),
+  new Audio('assets/sounds/saberclash2.mp3'),
+  new Audio('assets/sounds/saberclash3.mp3'),
 ];
 
 // this starts the game
@@ -12,55 +12,55 @@ function startGame() {
   characters = resetCharChoices();
   gameStats = gameStatsReset();
   addChars();
-  $("#attack").hide();
-  $("#reset").hide();
-  $("#win-or-lose").empty();
+  $('#attack').hide();
+  $('#reset').hide();
+  $('#win-or-lose').empty();
 }
 
 // this resets the characters key values
 function resetCharChoices() {
   return {
     bobaFett: {
-      name: "Boba Fett",
+      name: 'Boba Fett',
       health: 140,
       attack: 9,
       counter: 18,
-      imgURL: "assets/images/boba_fett.jpeg",
+      imgURL: 'assets/images/boba_fett.jpeg',
     },
     darthVader: {
-      name: "Darth Vader",
+      name: 'Darth Vader',
       health: 155,
       attack: 10,
       counter: 20,
-      imgURL: "assets/images/Darth_vader.jpeg",
+      imgURL: 'assets/images/Darth_vader.jpeg',
     },
     kyloRen: {
-      name: "Kylo Ren",
+      name: 'Kylo Ren',
       health: 150,
       attack: 13,
       counter: 6,
-      imgURL: "assets/images/Kylo_ren.jpeg",
+      imgURL: 'assets/images/Kylo_ren.jpeg',
     },
     lukeSkywalker: {
-      name: "Luke",
+      name: 'Luke',
       health: 145,
       attack: 8,
       counter: 14,
-      imgURL: "assets/images/Luke.jpeg",
+      imgURL: 'assets/images/Luke.jpeg',
     },
     Rey: {
-      name: "Rey",
+      name: 'Rey',
       health: 135,
       attack: 7,
       counter: 16,
-      imgURL: "assets/images/rey.jpeg",
+      imgURL: 'assets/images/rey.jpeg',
     },
     Yoda: {
-      name: "Yoda",
+      name: 'Yoda',
       health: 130,
       attack: 12,
       counter: 17,
-      imgURL: "assets/images/yoda.jpeg",
+      imgURL: 'assets/images/yoda.jpeg',
     },
   };
 }
@@ -69,12 +69,12 @@ function resetCharChoices() {
 function createChar(char, key) {
   var charContainer = $("<div class='char' data-name='" + key + "'>");
   var characterName = $("<div class='char-name'>").text(char.name);
-  var image = $("<img alt='player' class='char-image'>").attr("src", char.imgURL);
+  var image = $("<img alt='player' class='char-image'>").attr(
+    'src',
+    char.imgURL
+  );
   var hP = $("<div class='char-health'>").text(char.health);
-  charContainer
-    .append(characterName)
-    .append(image)
-    .append(hP);
+  charContainer.append(characterName).append(image).append(hP);
   return charContainer;
 }
 
@@ -85,7 +85,7 @@ function addChars() {
     var charKey = keys[i];
     var char = characters[charKey];
     var charContainer = createChar(char, charKey);
-    $(".characters").append(charContainer);
+    $('.characters').append(charContainer);
   }
 }
 
@@ -97,22 +97,22 @@ function createOpponents(charPickedKey) {
       var opponentKey = charKeys[j];
       var opponent = characters[opponentKey];
       var opponentContainer = createChar(opponent, opponentKey);
-      $(opponentContainer).addClass("opponent");
-      $("#opponents").append(opponentContainer);
+      $(opponentContainer).addClass('opponent');
+      $('#opponents').append(opponentContainer);
     }
   }
 }
 
 // this is to select an enemy to battle
 function moveOpponentToEnemy() {
-  $(".opponent").on("click", function() {
-    var enemy = $(this).attr("data-name");
+  $('.opponent').on('click', function () {
+    var enemy = $(this).attr('data-name');
     gameStats.enemyPicked = characters[enemy];
-    $("#enemy").append(this);
-    $("#attack").show();
-    $("#opponents").hide();
-    $("#win-or-lose").empty();
-    $(".opponent").off("click");
+    $('#enemy').append(this);
+    $('#attack').show();
+    $('#opponents').hide();
+    $('#win-or-lose').empty();
+    $('.opponent').off('click');
   });
 }
 
@@ -130,35 +130,37 @@ function matchesFinished() {
 function isBattleComplete() {
   if (playerHealth(gameStats.charPicked)) {
     // checks players health
-    $("#charSelected").empty();
-    $("#reset").show();
-    $("#characterAttack").empty();
-    $("#opponentCounter").empty();
-    $("#win-or-lose").text(gameStats.enemyPicked.name + " defeated you! Click Play Again.");
+    $('#charSelected').empty();
+    $('#reset').show();
+    $('#characterAttack').empty();
+    $('#opponentCounter').empty();
+    $('#win-or-lose').text(
+      gameStats.enemyPicked.name + ' defeated you! Click Play Again.'
+    );
     return true;
   } else if (playerHealth(gameStats.enemyPicked)) {
     // removes current enemy if defeated
     gameStats.enemiesRemaining--;
-    $("#characterAttack").empty();
-    $("#opponentCounter").empty();
-    $("#enemy").empty();
-    $("#opponents").show();
+    $('#characterAttack').empty();
+    $('#opponentCounter').empty();
+    $('#enemy').empty();
+    $('#opponents').show();
     // checks to see if match is won
     if (matchesFinished()) {
-      $("#win-or-lose").text(
-        gameStats.charPicked.name + " Defeated All Enemies! Click Play Again."
+      $('#win-or-lose').text(
+        gameStats.charPicked.name + ' Defeated All Enemies! Click Play Again.'
       );
-      $("#reset").show();
+      $('#reset').show();
     } else {
       // allows new enemy selection
-      $("#characterAttack").empty();
-      $("#opponentCounter").empty();
+      $('#characterAttack').empty();
+      $('#opponentCounter').empty();
       moveOpponentToEnemy();
-      $("#win-or-lose").text(
+      $('#win-or-lose').text(
         gameStats.charPicked.name +
-          " defeated " +
+          ' defeated ' +
           gameStats.enemyPicked.name +
-          "! Select another opponent."
+          '! Select another opponent.'
       );
     }
     return true;
@@ -178,7 +180,7 @@ function gameStatsReset() {
 
 // slides the title div to the right
 function slideTitle() {
-  $("#title").animate({ right: "5%" }, "fast");
+  $('#title').animate({ right: '5%' }, 'fast');
 }
 
 // plays sounds effects
@@ -188,69 +190,70 @@ function playSounds() {
 }
 // empties game board
 function emptyGameBoard() {
-  $("#characterAttack").empty();
-  $("#opponentCounter").empty();
-  $(".characters").empty();
-  $("#opponents").empty();
-  $("#enemy").empty();
-  $("#charSelected").empty();
+  $('#characterAttack').empty();
+  $('#opponentCounter').empty();
+  $('.characters').empty();
+  $('#opponents').empty();
+  $('#enemy').empty();
+  $('#charSelected').empty();
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   // for character selection and moving opponents
-  $(".characters").on("click", ".char", function() {
-    var charPickedKey = $(this).attr("data-name");
+  $('.characters').on('click', '.char', function () {
+    var charPickedKey = $(this).attr('data-name');
     gameStats.charPicked = characters[charPickedKey];
-    $("#charSelected").append(this);
-    $("#pick").hide();
+    $('#charSelected').append(this);
+    $('#pick').hide();
     createOpponents(charPickedKey);
-    $(".characters").hide();
+    $('.characters').hide();
     gameStats.enemiesRemaining = Object.keys(characters).length - 1;
     moveOpponentToEnemy();
     slideTitle();
     audio.play();
   });
 
-  $("#attack").on("click", function() {
+  $('#attack').on('click', function () {
     // adds one to number of attacks
     gameStats.numberOfAttacks++;
     playSounds();
     // decreases health of opponent
-    gameStats.enemyPicked.health -= gameStats.charPicked.attack * gameStats.numberOfAttacks;
-    $("#enemy .char-health").text(gameStats.enemyPicked.health);
-    $("#characterAttack").text(
-      "You attacked " +
+    gameStats.enemyPicked.health -=
+      gameStats.charPicked.attack * gameStats.numberOfAttacks;
+    $('#enemy .char-health').text(gameStats.enemyPicked.health);
+    $('#characterAttack').text(
+      'You attacked ' +
         gameStats.enemyPicked.name +
-        " for " +
+        ' for ' +
         gameStats.charPicked.attack * gameStats.numberOfAttacks +
-        " damage!"
+        ' damage!'
     );
     if (isBattleComplete()) {
-      $("#attack").hide();
+      $('#attack').hide();
     } else {
       // decreases health of users player
       gameStats.charPicked.health -= gameStats.enemyPicked.counter;
-      $("#charSelected .char-health").text(gameStats.charPicked.health);
-      $("#opponentCounter").text(
+      $('#charSelected .char-health').text(gameStats.charPicked.health);
+      $('#opponentCounter').text(
         gameStats.enemyPicked.name +
-          " countered " +
+          ' countered ' +
           gameStats.charPicked.name +
-          " for " +
+          ' for ' +
           gameStats.enemyPicked.counter +
-          " damage!"
+          ' damage!'
       );
       if (isBattleComplete()) {
-        $("#attack").hide();
+        $('#attack').hide();
       }
     }
-    $("#opponentCounter").show();
+    $('#opponentCounter').show();
   });
   // resets game board
-  $("#reset").on("click", function() {
+  $('#reset').on('click', function () {
     emptyGameBoard();
-    $(".characters").show();
-    $("#opponents").show();
-    $("#pick").show();
+    $('.characters').show();
+    $('#opponents').show();
+    $('#pick').show();
     startGame();
   });
 
