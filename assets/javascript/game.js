@@ -258,4 +258,14 @@ $(document).ready(function () {
   });
 
   startGame();
+
+  (function addTabIndex() {
+    $('div').each(function (i) {
+      // if (i < 1) {
+      $(this).attr('tabindex', '0');
+      // } else {
+      //   $(this).attr('tabindex', '-1');
+      // }
+    });
+  })();
 });
